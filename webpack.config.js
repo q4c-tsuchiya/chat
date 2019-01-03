@@ -27,4 +27,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.css'],
   },
+  devServer: {
+    contentBase: __dirname,
+    historyApiFallback: true
+  },
 };
