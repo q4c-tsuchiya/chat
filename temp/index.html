@@ -1,5 +1,9 @@
 <header>
   <link href="css/main.css" rel="stylesheet" type="text/css">
+  <!-- <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-firestore.js"></script>
+  <script src="js/firebase.js"></script>
 </header>
 <body>
   <div id="header">
@@ -118,8 +122,8 @@
         </div>
       </div>
       <form class="control">
-        <textarea></textarea>
-        <button type="submit">送信</button>
+        <input type="text" id="input-message">
+        <button (click)="submit()" id="testbtn">test</button>
       </form>
     </div>
   </div>
