@@ -1,0 +1,24 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "チャットアプリ構築を通して技術力向上をめざす",
+  "main": "index.js",
+  "dependencies": {
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/q4c-tsuchiya/chat.git"
+  },
+  "author": "宮川 潤",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/q4c-tsuchiya/chat/issues"
+  },
+  "homepage": "https://github.com/q4c-tsuchiya/chat#readme"
+}
