@@ -4,8 +4,12 @@
   "description": "チャットアプリ構築を通して技術力向上をめざす",
   "main": "index.js",
   "dependencies": {
+    "prop-types": "^15.6.2",
     "react": "^16.7.0",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.7.0",
+    "react-redux": "^6.0.0",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
