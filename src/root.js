@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { ChatApp } from './chatApp';
 
 const reducer = (state = {}, action) => {
     switch (action.type) {
@@ -17,7 +18,7 @@ export const Root = () => {
     return (
         <Provider store={store}>
             {/* <Router>あとで導入</Router> */}
-            <div>aaa</div>
+            <ChatApp>aaa</ChatApp>
         </Provider>
     )
 }
