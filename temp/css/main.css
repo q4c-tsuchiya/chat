@@ -8,6 +8,14 @@ body {
   background-color: brown;
 }
 
+h1 {
+  display: inline;
+}
+
+.account {
+  float: right;
+}
+
 #footer {
   width: 100%;
   height: 240px;
@@ -23,11 +31,27 @@ body {
 
 .room {
   margin: 16px auto;
-  padding: 8px;
-  width: 1000px;
+  width: 90%;
+  max-width: 800px;
   height: 100%;
   background-color: gray;
   position: relative;
+}
+
+.room-header {
+  width: 100%;
+  height: 80px;
+  border-bottom: solid 1px black;
+  background-color: white;
+  /* text-align: center; */
+}
+
+.room-content {
+  margin: auto;
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  overflow: auto;
 }
 
 .chat {
@@ -38,6 +62,7 @@ body {
 }
 
 .user-name {
+  margin-right: 8px;
   padding: 8px;
   display: inline-block;
   width: 20%;
@@ -49,13 +74,16 @@ body {
   display: inline-block;
   background-color: azure;
   width: 70%;
+  word-wrap: break-word;
 }
 
 form {
+  display: flex;
   position: absolute;
-  bottom: 5px;
-  width: 900px;
-  min-height: 80px;
+  bottom: 8px;
+  right: 8px;
+  width: 80%;
+  min-height: 40px;
 }
 
 textarea {
@@ -67,4 +95,5 @@ textarea {
 button {
   width: 20%;
   height: 100%;
+  margin: auto;
 }
