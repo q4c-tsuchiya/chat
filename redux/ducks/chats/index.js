@@ -43,13 +43,33 @@ const initialState = {
                     userName: 'j-miya',
                     timestamp: date,
                 },
-              ]
+              ],
+    messageCount: 5,
+    inputMessage: '',
 }
 
 export const reducer = (state = {}, action) => {
     switch (action.type) {
         case "DISPLAY_INITIAL_DATA":
             return initialState;
+        case "CHANGE_INPUT_MESSAGE":
+            return {
+                ...state,
+                inputMessage: action.payload.message,
+            };
+        case "POST_NEW_MESSAGE":
+            return {
+                ...state,
+                messageCount: state.messageCount + 1,
+                messages: state.messages
+                            .concat({
+                                id: state.messageCount + 1,
+                                content: action.payload.message,
+                                userName: 'postman',
+                                timestamp: date,
+                            }),
+                inputMessage: '',
+            };
         default:
             return state;
     }

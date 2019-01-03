@@ -37,9 +37,18 @@ export const ChatApp = props => {
                         <div className={styles.roomContent}>
                             <MessageList messages={props.messages}/>
                         </div>
-                        <form className={styles.control}>
-                            <textarea></textarea>
-                            <button type="submit">送信</button>
+                        <form
+                            className={styles.control}
+                            onSubmit={ event => {
+                                event.preventDefault();
+                                props.postNewMessage(props.inputMessage)
+                            }}
+                        >
+                            <textarea
+                                value={props.inputMessage} 
+                                onChange={event => props.changeInputMessage(event.target.value)}
+                            />
+                            <button　type="submit">送信</button>
                         </form>
                     </div>
                 </div>
@@ -53,6 +62,7 @@ const mapStateToProps = state => {
     return {
         roomName: state.roomName,
         messages: state.messages,
+        inputMessage: state.inputMessage,
     };
 };
 
@@ -60,6 +70,12 @@ const mapDispatchToProps = dispach => {
     return {
         displayInitialData: () => {
             dispach({ type: "DISPLAY_INITIAL_DATA", payload: {}});
+        },
+        changeInputMessage: inputMessage => {
+            dispach({ type: "CHANGE_INPUT_MESSAGE", payload: { message: inputMessage }});
+        },
+        postNewMessage: postMessage => {
+            dispach({ type: "POST_NEW_MESSAGE", payload: { message: postMessage }});
         }
     };
 };

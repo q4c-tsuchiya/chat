@@ -5,7 +5,6 @@ import ChatApp from './chatApp';
 import { reducer } from '../redux/ducks/chats'
 
 const store = createStore(reducer);
-console.log(store)
 
 export const Root = () => {
     return (
