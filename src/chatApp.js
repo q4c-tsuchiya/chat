@@ -1,59 +1,41 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styles from './main';
 
-export const ChatApp = () => {
+const MessageList = ({messages}) => {
+    if (!messages) { return null }
+    const list = messages.map(message => {
+        return (
+            <li>
+                <div className={styles.chat}>
+                    <div className={styles.userName}>
+                        {message.userName}
+                    </div>
+                    <div className={styles.message}>
+                        {message.content}
+                    </div>
+                </div>
+            </li>
+        );
+    });
+    return <ul>{list}</ul>;
+};
+
+export const ChatApp = props => {
     return (
             <div>
                 <div className={styles.header}>
                     <h1>hapicomori</h1>
+                    <button onClick={props.displayInitialData} style={{ height: '50px', width: '100px', marginLeft: '30px'}}>初期データ反映</button>
                     <a href="" className={styles.account}>Login / Logout</a>
                 </div>
                 <div className={styles.content}>
                     <div className={styles.room}>
                         <div className={styles.roomHeader}>
-                            # 茅場町にこもって開発
+                            # {props.roomName}
                         </div>
                         <div className={styles.roomContent}>
-                            <div className={styles.chat}>
-                                <div className={styles.userName}>
-                                    tsuchy
-                                </div>
-                                <div className={styles.message}>
-                                    あけまして
-                                </div>
-                            </div>
-                            <div className={styles.chat}>
-                                <div className={styles.userName}>
-                                    j-miya
-                                </div>
-                                <div className={styles.message}>
-                                    おめでとうございます
-                                </div>
-                            </div>
-                            <div className={styles.chat}>
-                                <div className={styles.userName}>
-                                    tsuchy
-                                </div>
-                                <div className={styles.message}>
-                                    今年は
-                                </div>
-                            </div>
-                            <div className={styles.chat}>
-                                <div className={styles.userName}>
-                                    j-miya
-                                </div>
-                                <div className={styles.message}>
-                                    副業もやるぞ
-                                </div>
-                            </div>
-                            <div className={styles.chat}>
-                                <div className={styles.userName}>
-                                    tsuchy
-                                </div>
-                                <div className={styles.message}>
-                                    稼ぐぞ
-                                </div>
-                            </div>
+                            <MessageList messages={props.messages}/>
                         </div>
                         <form className={styles.control}>
                             <textarea></textarea>
@@ -66,3 +48,20 @@ export const ChatApp = () => {
             </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        roomName: state.roomName,
+        messages: state.messages,
+    };
+};
+
+const mapDispatchToProps = dispach => {
+    return {
+        displayInitialData: () => {
+            dispach({ type: "DISPLAY_INITIAL_DATA", payload: {}});
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatApp);
