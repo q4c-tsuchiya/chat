@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "./main";
-import { postMessage } from "./firebase";
 
 const MessageList = ({ messages }) => {
   if (!messages) {
+    console.log("render null");
     return null;
   }
   const list = messages.map(message => {
@@ -17,10 +17,12 @@ const MessageList = ({ messages }) => {
       </li>
     );
   });
+  console.log(`list ${list}`);
   return <ul>{list}</ul>;
 };
 
 export const ChatApp = props => {
+  console.log(props);
   return (
     <div>
       <div className={styles.header}>
