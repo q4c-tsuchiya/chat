@@ -1,34 +1,34 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js"
   },
   module: {
     rules: [
-      { 
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-            loader: 'babel-loader',
-            options: {
-                presets: ['env', 'react']
-            }
-        } 
+          loader: "babel-loader",
+          options: {
+            presets: ["env", "react"]
+          }
+        }
       },
-      { 
+      {
         test: /\.css$/,
-        loaders: ['style-loader','css-loader?modules']
-      },
-    ],
+        loaders: ["style-loader", "css-loader?modules"]
+      }
+    ]
   },
   resolve: {
-    extensions: ['.js', '.css'],
+    extensions: [".js", ".css"]
   },
   devServer: {
     contentBase: __dirname,
     historyApiFallback: true
-  },
+  }
 };
