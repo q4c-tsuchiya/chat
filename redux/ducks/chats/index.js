@@ -1,3 +1,4 @@
+import { postMessage } from "../../../src/firebase";
 /* ActionCreater */
 
 /* Reducer */
@@ -58,6 +59,12 @@ export const reducer = (state = {}, action) => {
         inputMessage: action.payload.message
       };
     case "POST_NEW_MESSAGE":
+      postMessage(state.currentRoom, {
+        id: state.messageCount + 1,
+        content: action.payload.message,
+        userName: state.userName,
+        timestamp: date
+      });
       return {
         ...state,
         messageCount: state.messageCount + 1,
