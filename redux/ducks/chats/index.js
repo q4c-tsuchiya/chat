@@ -1,47 +1,3 @@
-/* Firebase */
-import { FIREBASE_CONFIG } from "../../../config/firebase";
-
-// Initialize Firebase
-firebase.initializeApp(FIREBASE_CONFIG);
-
-const db = firebase.firestore();
-db.settings({
-  timestampsInSnapshots: true
-});
-
-// データがとれない。。。要確認
-// const getCurrentTimeStamp = () => {
-//   return db.Timestamp;
-// };
-
-const postMessage = (roomName, postMessage) => {
-  db.collection("rooms")
-    .doc(roomName)
-    .collection("messages")
-    .add(postMessage);
-};
-
-const getInitialData = () => {
-  const messages = [];
-  db.collection("rooms")
-    .doc("roomA")
-    .collection("messages")
-    .orderBy("timestamp")
-    .get()
-    .then(
-      snapshot => {
-        snapshot.forEach(doc => {
-          messages.push(doc.data());
-        });
-        console.log("messages: ", messages);
-        return messages;
-      },
-      err => {
-        console.log("error!: ", err);
-      }
-    );
-};
-
 /* Reducer */
 
 //ダミー用の日付データを用意
@@ -72,16 +28,9 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "DISPLAY_INITIAL_DATA":
-      getInitialData();
       return {
         ...state,
-        messages: state.messages.concat([
-          {
-            content: "ダミー",
-            userName: "dummy",
-            timestamp: date
-          }
-        ])
+        messages: action.payload.messages
       };
     case "CHANGE_INPUT_MESSAGE":
       return {
@@ -89,11 +38,6 @@ export const reducer = (state = initialState, action) => {
         inputMessage: action.payload.message
       };
     case "POST_NEW_MESSAGE":
-      postMessage(state.currentRoom, {
-        content: action.payload.message,
-        userName: state.userName,
-        timestamp: date
-      });
       return {
         ...state,
         messages: state.messages.concat({

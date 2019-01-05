@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "./main";
+import { getInitialData, postMessage } from "./firebasecontrol";
 
 const MessageList = ({ messages }) => {
   if (!messages) {
@@ -25,10 +26,10 @@ export const ChatApp = props => {
       <div className={styles.header}>
         <h1>hapicomori</h1>
         <button
-          onClick={props.displayInitialData}
+          onClick={() => initData(props)}
           style={{ height: "50px", width: "100px", marginLeft: "30px" }}
         >
-          初期データ反映
+          データ更新
         </button>
         <a href="" className={styles.account}>
           Login / Logout
@@ -44,7 +45,7 @@ export const ChatApp = props => {
             className={styles.control}
             onSubmit={event => {
               event.preventDefault();
-              props.postNewMessage(props.inputMessage);
+              postNewMessage(props);
             }}
           >
             <textarea
@@ -60,6 +61,32 @@ export const ChatApp = props => {
   );
 };
 
+const initData = props => {
+  const messages = [];
+  getInitialData("rooms", "roomA", "messages")
+    .get()
+    .then(
+      snapshot => {
+        snapshot.forEach(doc => {
+          messages.push(doc.data());
+        });
+        props.displayInitialData(messages);
+      },
+      err => {
+        console.log("error!: ", err);
+      }
+    );
+};
+
+const postNewMessage = props => {
+  props.postNewMessage(props.inputMessage);
+  postMessage("rooms", "roomA", "messages", {
+    content: props.inputMessage,
+    userName: "test名前",
+    timestamp: new Date()
+  });
+};
+
 const mapStateToProps = state => {
   return {
     roomName: state.currentRoom,
@@ -70,8 +97,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispach => {
   return {
-    displayInitialData: () => {
-      dispach({ type: "DISPLAY_INITIAL_DATA", payload: {} });
+    displayInitialData: messages => {
+      dispach({
+        type: "DISPLAY_INITIAL_DATA",
+        payload: { messages: messages }
+      });
     },
     changeInputMessage: inputMessage => {
       dispach({
