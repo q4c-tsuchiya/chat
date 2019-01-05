@@ -4,7 +4,6 @@ import styles from "./main";
 
 const MessageList = ({ messages }) => {
   if (!messages) {
-    console.log("render null");
     return null;
   }
   const list = messages.map(message => {
@@ -17,12 +16,10 @@ const MessageList = ({ messages }) => {
       </li>
     );
   });
-  console.log(`list ${list}`);
   return <ul>{list}</ul>;
 };
 
 export const ChatApp = props => {
-  console.log(props);
   return (
     <div>
       <div className={styles.header}>

@@ -31,7 +31,6 @@ const getInitialData = () => {
     .then(
       snapshot => {
         snapshot.forEach(doc => {
-          console.log("doc: ", doc.data());
           messages.push(doc.data());
         });
         console.log("messages: ", messages);
@@ -67,15 +66,12 @@ const initialState = {
       timestamp: date
     }
   ],
-  // messageCount: 5,
   inputMessage: ""
 };
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "DISPLAY_INITIAL_DATA":
-      console.log("getInitialData");
-      // console.log([...getInitialData()]);
       getInitialData();
       return {
         ...state,
@@ -93,8 +89,6 @@ export const reducer = (state = initialState, action) => {
         inputMessage: action.payload.message
       };
     case "POST_NEW_MESSAGE":
-      // const timestamp = getCurrentTimeStamp();
-      // console.log(`timestamp:${timestamp}`);
       postMessage(state.currentRoom, {
         content: action.payload.message,
         userName: state.userName,
