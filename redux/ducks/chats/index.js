@@ -1,25 +1,21 @@
 /* Firebase */
 import { FIREBASE_CONFIG } from "../../../config/firebase";
+import { postMessage, getRoomNames } from "../../../src/firebase";
 
 // Initialize Firebase
-firebase.initializeApp(FIREBASE_CONFIG);
+// firebase.initializeApp(FIREBASE_CONFIG);
 
-export const db = firebase.firestore();
-db.settings({
-  timestampsInSnapshots: true
-});
+// export const db = firebase.firestore();
+// db.settings({
+//   timestampsInSnapshots: true
+// });
 
 // データがとれない。。。要確認
 // const getCurrentTimeStamp = () => {
 //   return db.Timestamp;
 // };
 
-const postMessage = (roomName, postMessage) => {
-  db.collection("rooms")
-    .doc(roomName)
-    .collection("messages")
-    .add(postMessage);
-};
+/* ActionCreater */
 
 /* Reducer */
 
@@ -31,7 +27,6 @@ date.setDate(1);
 
 const initialState = {
   userName: "miyakawa",
-  userRoomIdxs: ["roomA", "roomB"],
   currentRoom: "roomA",
   messages: [
     {
@@ -74,6 +69,11 @@ export const reducer = (state = initialState, action) => {
           timestamp: date
         }),
         inputMessage: ""
+      };
+    case "GET_ROOM_NAMES":
+      return {
+        ...state,
+        userRoomIdxs: action.payload.roomNames
       };
     default:
       return state;
