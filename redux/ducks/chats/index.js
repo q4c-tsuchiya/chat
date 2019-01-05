@@ -27,7 +27,6 @@ date.setDate(1);
 
 const initialState = {
   userName: "miyakawa",
-  userRoomIdxs: ["roomA", "roomB"],
   currentRoom: "roomA",
   messages: [
     {
@@ -72,13 +71,11 @@ export const reducer = (state = initialState, action) => {
         inputMessage: ""
       };
     case "GET_ROOM_NAMES":
-      console.log("GET_ROOM_NAMES, ");
-      getRoomNames();
       return {
-        ...state
+        ...state,
+        userRoomIdxs: action.payload.roomNames
       };
     default:
-      console.log("default ");
       return state;
   }
 };

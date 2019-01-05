@@ -67,7 +67,8 @@ const mapStateToProps = state => {
   return {
     roomName: state.currentRoom,
     messages: state.messages,
-    inputMessage: state.inputMessage
+    inputMessage: state.inputMessage,
+    userRoomIdxs: state.userRoomIdxs
   };
 };
 
@@ -95,9 +96,33 @@ const getInitialData = dispach => {
     );
 };
 
+const getRoomNames = dispach => {
+  const roomNames = [];
+  db.collection("rooms")
+    .get()
+    .then(
+      rooms => {
+        console.log("rooms", rooms);
+        rooms.forEach(room => {
+          roomNames.push(room.id);
+        });
+        dispach({ type: "GET_ROOM_NAMES", payload: { roomNames: roomNames } });
+      },
+      err => {
+        console.log("error!: ", err);
+      }
+    );
+};
+
 const asyncActionCreater = () => {
   return dispach => {
     getInitialData(dispach);
+  };
+};
+
+const asyncGetRoomNames = () => {
+  return dispatch => {
+    getRoomNames(dispatch);
   };
 };
 
@@ -117,7 +142,7 @@ const mapDispatchToProps = dispach => {
     },
     getRoomNames: () => {
       console.log("getRoomsNames was called");
-      dispach({ type: "GET_ROOM_NAMES", payload: {} });
+      dispach(asyncGetRoomNames());
     }
   };
 };
