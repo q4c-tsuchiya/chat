@@ -1,5 +1,46 @@
-import { postMessage } from "../../../src/firebase";
-/* ActionCreater */
+/* Firebase */
+import { FIREBASE_CONFIG } from "../../../config/firebase";
+
+// Initialize Firebase
+firebase.initializeApp(FIREBASE_CONFIG);
+
+const db = firebase.firestore();
+db.settings({
+  timestampsInSnapshots: true
+});
+
+// データがとれない。。。要確認
+// const getCurrentTimeStamp = () => {
+//   return db.Timestamp;
+// };
+
+const postMessage = (roomName, postMessage) => {
+  db.collection("rooms")
+    .doc(roomName)
+    .collection("messages")
+    .add(postMessage);
+};
+
+const getInitialData = () => {
+  const messages = [];
+  db.collection("rooms")
+    .doc("roomA")
+    .collection("messages")
+    .orderBy("timestamp")
+    .get()
+    .then(
+      snapshot => {
+        snapshot.forEach(doc => {
+          messages.push(doc.data());
+        });
+        console.log("messages: ", messages);
+        return messages;
+      },
+      err => {
+        console.log("error!: ", err);
+      }
+    );
+};
 
 /* Reducer */
 
@@ -15,44 +56,33 @@ const initialState = {
   currentRoom: "roomA",
   messages: [
     {
-      id: 1,
       content: "あけまして",
       userName: "tsuchy",
       timestamp: date
     },
     {
-      id: 2,
       content: "おめでとうございます",
-      userName: "j-miya",
-      timestamp: date
-    },
-    {
-      id: 3,
-      content: "今年は",
-      userName: "tsuchy",
-      timestamp: date
-    },
-    {
-      id: 4,
-      content: "副業もやるぞ",
-      userName: "j-miya",
-      timestamp: date
-    },
-    {
-      id: 5,
-      content: "稼ぐぞ",
       userName: "j-miya",
       timestamp: date
     }
   ],
-  messageCount: 5,
   inputMessage: ""
 };
 
-export const reducer = (state = {}, action) => {
+export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "DISPLAY_INITIAL_DATA":
-      return initialState;
+      getInitialData();
+      return {
+        ...state,
+        messages: state.messages.concat([
+          {
+            content: "ダミー",
+            userName: "dummy",
+            timestamp: date
+          }
+        ])
+      };
     case "CHANGE_INPUT_MESSAGE":
       return {
         ...state,
@@ -60,16 +90,13 @@ export const reducer = (state = {}, action) => {
       };
     case "POST_NEW_MESSAGE":
       postMessage(state.currentRoom, {
-        id: state.messageCount + 1,
         content: action.payload.message,
         userName: state.userName,
         timestamp: date
       });
       return {
         ...state,
-        messageCount: state.messageCount + 1,
         messages: state.messages.concat({
-          id: state.messageCount + 1,
           content: action.payload.message,
           userName: state.userName,
           timestamp: date
