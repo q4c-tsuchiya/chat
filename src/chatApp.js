@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "./main";
-import { db } from "../redux/ducks/chats";
+import { db } from "./firebase";
+import { SideMenu } from "./sideMenu";
 
 const MessageList = ({ messages }) => {
   if (!messages) {
@@ -36,6 +37,7 @@ export const ChatApp = props => {
         </a>
       </div>
       <div className={styles.content}>
+        <SideMenu props={props} />
         <div className={styles.room}>
           <div className={styles.roomHeader}># {props.roomName}</div>
           <div className={styles.roomContent}>
@@ -112,6 +114,10 @@ const mapDispatchToProps = dispach => {
     },
     postNewMessage: postMessage => {
       dispach({ type: "POST_NEW_MESSAGE", payload: { message: postMessage } });
+    },
+    getRoomNames: () => {
+      console.log("getRoomsNames was called");
+      dispach({ type: "GET_ROOM_NAMES", payload: {} });
     }
   };
 };
