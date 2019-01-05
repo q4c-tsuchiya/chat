@@ -48,7 +48,8 @@ export const reducer = (state = initialState, action) => {
     case "DISPLAY_INITIAL_DATA":
       return {
         ...state,
-        messages: action.payload.messages
+        messages: action.payload.messages,
+        currentRoom: action.payload.currentRoom
       };
     case "CHANGE_INPUT_MESSAGE":
       return {

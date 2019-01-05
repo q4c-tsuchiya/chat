@@ -10,7 +10,7 @@ const MessageList = ({ messages }) => {
   }
   const list = messages.map(message => {
     return (
-      <li>
+      <li key={Math.random()}>
         <div className={styles.chat}>
           <div className={styles.userName}>{message.userName}</div>
           <div className={styles.message}>{message.content}</div>
@@ -84,7 +84,6 @@ const getInitialData = dispach => {
         snapshot.forEach(doc => {
           messages.push(doc.data());
         });
-        console.log("messages: ", messages);
         dispach({
           type: "DISPLAY_INITIAL_DATA",
           payload: { messages: messages }
@@ -102,7 +101,6 @@ const getRoomNames = dispach => {
     .get()
     .then(
       rooms => {
-        console.log("rooms", rooms);
         rooms.forEach(room => {
           roomNames.push(room.id);
         });
@@ -114,6 +112,23 @@ const getRoomNames = dispach => {
     );
 };
 
+const getRoomMessages = (dispach, roomName) => {
+  const messageList = [];
+  db.collection("rooms")
+    .doc(roomName)
+    .collection("messages")
+    .get()
+    .then(messages => {
+      messages.forEach(mes => {
+        messageList.push(mes.data());
+      });
+      dispach({
+        type: "DISPLAY_INITIAL_DATA",
+        payload: { messages: messageList, currentRoom: roomName }
+      });
+    });
+};
+
 const asyncActionCreater = () => {
   return dispach => {
     getInitialData(dispach);
@@ -123,6 +138,12 @@ const asyncActionCreater = () => {
 const asyncGetRoomNames = () => {
   return dispatch => {
     getRoomNames(dispatch);
+  };
+};
+
+const asyncRoomMessages = roomName => {
+  return dispach => {
+    getRoomMessages(dispach, roomName);
   };
 };
 
@@ -141,8 +162,10 @@ const mapDispatchToProps = dispach => {
       dispach({ type: "POST_NEW_MESSAGE", payload: { message: postMessage } });
     },
     getRoomNames: () => {
-      console.log("getRoomsNames was called");
       dispach(asyncGetRoomNames());
+    },
+    displayRoomData: roomName => {
+      dispach(asyncRoomMessages(roomName));
     }
   };
 };
