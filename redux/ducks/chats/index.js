@@ -1,5 +1,5 @@
 /* Firebase */
-import { FIREBASE_CONFIG } from "../../../config/firebase";
+import FIREBASE_CONFIG from "../../../config/firebase";
 
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
