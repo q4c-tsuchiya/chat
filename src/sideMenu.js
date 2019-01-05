@@ -1,12 +1,21 @@
 import React from "react";
 import styles from "./main";
 
-const RoomNameList = ({ roomNames }) => {
-  if (!roomNames) {
+const RoomNameList = ({ prop }) => {
+  if (!prop.userRoomIdxs) {
     return null;
   }
-  const list = roomNames.map(roomName => {
-    return <li>{roomName}</li>;
+  const list = prop.userRoomIdxs.map(roomName => {
+    return (
+      <li
+        key={Math.random()}
+        onClick={() => {
+          prop.displayRoomData(roomName);
+        }}
+      >
+        {roomName}
+      </li>
+    );
   });
   return <ul>{list}</ul>;
 };
@@ -22,7 +31,7 @@ export const SideMenu = props => {
       >
         ルーム一覧取得
       </button>
-      <RoomNameList roomNames={props.props.userRoomIdxs} />
+      <RoomNameList prop={props.props} />
     </div>
   );
 };
