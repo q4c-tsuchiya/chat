@@ -22,11 +22,12 @@
     "style-loader": "^0.23.1",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^3.1.14",
+    "webpack-merge": "^4.2.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --watch --mode development --hot --inline --open"
+    "start": "webpack-dev-server --watch --hot --inline --open --config webpack.dev.js",
+    "build": "webpack-dev-server --watch --hot --inline --open --config webpack.prod.js"
   },
   "repository": {
     "type": "git",

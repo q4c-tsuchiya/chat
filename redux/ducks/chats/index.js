@@ -1,5 +1,5 @@
 /* Firebase */
-import { FIREBASE_CONFIG } from "../../../config/firebase";
+import FIREBASE_CONFIG from "../../../config/firebase";
 import { postMessage, getRoomNames } from "../../../src/firebase";
 
 // Initialize Firebase
