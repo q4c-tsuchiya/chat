@@ -4,7 +4,7 @@ import { FIREBASE_CONFIG } from "../../../config/firebase";
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
 
-const db = firebase.firestore();
+export const db = firebase.firestore();
 db.settings({
   timestampsInSnapshots: true
 });
@@ -19,27 +19,6 @@ const postMessage = (roomName, postMessage) => {
     .doc(roomName)
     .collection("messages")
     .add(postMessage);
-};
-
-const getInitialData = () => {
-  const messages = [];
-  db.collection("rooms")
-    .doc("roomA")
-    .collection("messages")
-    .orderBy("timestamp")
-    .get()
-    .then(
-      snapshot => {
-        snapshot.forEach(doc => {
-          messages.push(doc.data());
-        });
-        console.log("messages: ", messages);
-        return messages;
-      },
-      err => {
-        console.log("error!: ", err);
-      }
-    );
 };
 
 /* Reducer */
@@ -72,16 +51,9 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "DISPLAY_INITIAL_DATA":
-      getInitialData();
       return {
         ...state,
-        messages: state.messages.concat([
-          {
-            content: "ダミー",
-            userName: "dummy",
-            timestamp: date
-          }
-        ])
+        messages: action.payload.messages
       };
     case "CHANGE_INPUT_MESSAGE":
       return {

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "./main";
+import { db } from "../redux/ducks/chats";
 
 const MessageList = ({ messages }) => {
   if (!messages) {
@@ -68,10 +69,40 @@ const mapStateToProps = state => {
   };
 };
 
+const getInitialData = dispach => {
+  const messages = [];
+  db.collection("rooms")
+    .doc("roomA")
+    .collection("messages")
+    .orderBy("timestamp")
+    .get()
+    .then(
+      snapshot => {
+        snapshot.forEach(doc => {
+          messages.push(doc.data());
+        });
+        console.log("messages: ", messages);
+        dispach({
+          type: "DISPLAY_INITIAL_DATA",
+          payload: { messages: messages }
+        });
+      },
+      err => {
+        console.log("error!: ", err);
+      }
+    );
+};
+
+const asyncActionCreater = () => {
+  return dispach => {
+    getInitialData(dispach);
+  };
+};
+
 const mapDispatchToProps = dispach => {
   return {
     displayInitialData: () => {
-      dispach({ type: "DISPLAY_INITIAL_DATA", payload: {} });
+      dispach(asyncActionCreater());
     },
     changeInputMessage: inputMessage => {
       dispach({
