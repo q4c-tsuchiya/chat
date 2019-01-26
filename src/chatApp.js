@@ -25,7 +25,7 @@ const MessageList = ({ messages }) => {
 export const ChatApp = props => {
   return (
     <div>
-      <Modal />
+      <Modal closeModal={props.closeModal} />
       <div className={styles.header}>
         <h1>hapicomori</h1>
         <button
@@ -165,6 +165,11 @@ const mapDispatchToProps = dispach => {
       dispach({
         type: "OPEN_MODAL",
         payload: { type: "memo" }
+      });
+    },
+    closeModal: () => {
+      dispach({
+        type: "CLOSE_MODAL"
       });
     },
     changeInputMessage: inputMessage => {

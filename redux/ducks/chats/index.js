@@ -64,6 +64,11 @@ export const reducer = (state = initialState, action) => {
           data: action.payload.data
         }
       };
+    case "CLOSE_MODAL":
+      return {
+        ...state,
+        modal: initialState.modal
+      };
     case "CHANGE_INPUT_MESSAGE":
       return {
         ...state,

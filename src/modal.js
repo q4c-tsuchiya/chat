@@ -4,13 +4,29 @@ import styles from "./memo";
 import { db } from "./firebase";
 
 const Modal = props => {
-  const { modalType, inputMemo, postMemo, changeInputMemo, ...rest } = props;
+  const {
+    modalType,
+    inputMemo,
+    postMemo,
+    changeInputMemo,
+    closeModal,
+    ...rest
+  } = props;
   switch (modalType) {
     case "memo":
       return (
         <div className={styles.overlay}>
           <div className={styles.modal}>
-            <div className={styles.modalHeader}>メモ</div>
+            <div className={styles.modalHeader}>
+              <h1>メモ</h1>
+              <button
+                onClick={closeModal}
+                style={{ height: "50px", width: "50px", marginLeft: "30px" }}
+              >
+                閉じる
+              </button>
+            </div>
+
             <div className={styles.modalContent}>
               <form
                 className={styles.form}
