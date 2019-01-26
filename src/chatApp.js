@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import styles from "./main";
 import { db } from "./firebase";
+import Modal from "./modal";
 import { SideMenu } from "./sideMenu";
 
 const MessageList = ({ messages }) => {
@@ -24,6 +25,7 @@ const MessageList = ({ messages }) => {
 export const ChatApp = props => {
   return (
     <div>
+      <Modal closeModal={props.closeModal} />
       <div className={styles.header}>
         <h1>hapicomori</h1>
         <button
@@ -31,6 +33,12 @@ export const ChatApp = props => {
           style={{ height: "50px", width: "100px", marginLeft: "30px" }}
         >
           初期データ反映
+        </button>
+        <button
+          onClick={props.openModal}
+          style={{ height: "50px", width: "100px", marginLeft: "30px" }}
+        >
+          メモ表示
         </button>
         <a href="" className={styles.account}>
           Login / Logout
@@ -117,6 +125,7 @@ const getRoomMessages = (dispach, roomName) => {
   db.collection("rooms")
     .doc(roomName)
     .collection("messages")
+    .orderBy("timestamp")
     .get()
     .then(messages => {
       messages.forEach(mes => {
@@ -129,7 +138,7 @@ const getRoomMessages = (dispach, roomName) => {
     });
 };
 
-const asyncActionCreater = () => {
+const asyncGetInitialData = () => {
   return dispach => {
     getInitialData(dispach);
   };
@@ -150,7 +159,18 @@ const asyncRoomMessages = roomName => {
 const mapDispatchToProps = dispach => {
   return {
     displayInitialData: () => {
-      dispach(asyncActionCreater());
+      dispach(asyncGetInitialData());
+    },
+    openModal: () => {
+      dispach({
+        type: "OPEN_MODAL",
+        payload: { type: "memo" }
+      });
+    },
+    closeModal: () => {
+      dispach({
+        type: "CLOSE_MODAL"
+      });
     },
     changeInputMessage: inputMessage => {
       dispach({

@@ -1,0 +1,28 @@
+.overlay {
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.modal {
+  z-index: 101;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  width: 600px;
+  height: 600px;
+  border-radius: 10px;
+}
+.modalHeader {
+  display: flex;
+}
+.modalContent {
+}
+
+.form {
+}

@@ -15,6 +15,10 @@ export const postMessage = (roomName, postMessage) => {
     .add(postMessage);
 };
 
+export const postMemo = memo => {
+  db.collection("memos").add(memo);
+};
+
 export const getRoomNames = () => {
   return db
     .collection("rooms")
