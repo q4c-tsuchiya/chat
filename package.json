@@ -4,13 +4,20 @@
   "description": "チャットアプリ構築を通して技術力向上をめざす",
   "main": "index.js",
   "dependencies": {
+    "file-loader": "^3.0.1",
+    "mdbreact": "^4.9.0",
+    "node-loader": "^0.6.0",
+    "node-sass": "^4.11.0",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
     "recompose": "^0.30.0",
     "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.16.1",
+    "sass-loader": "^7.1.0",
+    "scss-loader": "^0.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
