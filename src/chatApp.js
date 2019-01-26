@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import styles from "./main";
+import styles from "./main.css";
 import { db } from "./firebase";
 import { SideMenu } from "./sideMenu";
+import ModalPage from "./modal";
 
 const MessageList = ({ messages }) => {
   if (!messages) {
@@ -59,6 +60,7 @@ export const ChatApp = props => {
         </div>
       </div>
       <div className={styles.footer} />
+      <ModalPage />
     </div>
   );
 };
