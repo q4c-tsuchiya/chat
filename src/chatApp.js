@@ -129,7 +129,7 @@ const getRoomMessages = (dispach, roomName) => {
     });
 };
 
-const asyncActionCreater = () => {
+const asyncGetInitialData = () => {
   return dispach => {
     getInitialData(dispach);
   };
@@ -150,7 +150,7 @@ const asyncRoomMessages = roomName => {
 const mapDispatchToProps = dispach => {
   return {
     displayInitialData: () => {
-      dispach(asyncActionCreater());
+      dispach(asyncGetInitialData());
     },
     changeInputMessage: inputMessage => {
       dispach({
