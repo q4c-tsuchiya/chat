@@ -117,6 +117,7 @@ const getRoomMessages = (dispach, roomName) => {
   db.collection("rooms")
     .doc(roomName)
     .collection("messages")
+    .orderBy("timestamp")
     .get()
     .then(messages => {
       messages.forEach(mes => {
