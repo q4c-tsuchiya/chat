@@ -16,7 +16,7 @@ const Modal = props => {
                 className={styles.form}
                 onSubmit={e => {
                   e.preventDefault();
-                  postMemo(inputMemo);
+                  postMemo({ memo: inputMemo });
                 }}
               >
                 <textarea
