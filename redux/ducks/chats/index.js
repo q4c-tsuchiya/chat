@@ -1,6 +1,6 @@
 /* Firebase */
 import FIREBASE_CONFIG from "../../../config/firebase";
-import { postMessage, getRoomNames } from "../../../src/firebase";
+import { postMessage, getRoomNames, postMemo } from "../../../src/firebase";
 
 // Initialize Firebase
 // firebase.initializeApp(FIREBASE_CONFIG);
@@ -40,7 +40,12 @@ const initialState = {
       timestamp: date
     }
   ],
-  inputMessage: ""
+  inputMessage: "",
+  inputMemo: "",
+  modal: {
+    type: "",
+    data: {}
+  }
 };
 
 export const reducer = (state = initialState, action) => {
@@ -51,10 +56,29 @@ export const reducer = (state = initialState, action) => {
         messages: action.payload.messages,
         currentRoom: action.payload.currentRoom
       };
+    case "OPEN_MODAL":
+      return {
+        ...state,
+        modal: {
+          type: action.payload.type,
+          data: action.payload.data
+        }
+      };
     case "CHANGE_INPUT_MESSAGE":
       return {
         ...state,
         inputMessage: action.payload.message
+      };
+    case "CHANGE_INPUT_MEMO":
+      return {
+        ...state,
+        inputMemo: action.payload.memo
+      };
+    case "POST_MEMO":
+      postMemo(action.payload.memo);
+      return {
+        ...state,
+        inputMemo: ""
       };
     case "POST_NEW_MESSAGE":
       postMessage(state.currentRoom, {
