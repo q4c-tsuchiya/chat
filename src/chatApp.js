@@ -21,6 +21,7 @@ const MessageList = ({ messages }) => {
   });
   return <ul>{list}</ul>;
 };
+// gs://hapicomori-chat.appspot.com/test/fileDownloadTest.txt
 
 export const ChatApp = props => {
   return (
@@ -39,6 +40,12 @@ export const ChatApp = props => {
           style={{ height: "50px", width: "100px", marginLeft: "30px" }}
         >
           メモ表示
+        </button>
+        <button
+          onClick={props.fileDownload} //暫定実装
+          style={{ height: "50px", width: "100px", marginLeft: "30px" }}
+        >
+          ファイルダウンロードテスト
         </button>
         <a href="" className={styles.account}>
           Login / Logout
@@ -138,6 +145,12 @@ const getRoomMessages = (dispach, roomName) => {
     });
 };
 
+// Firebase Storage からサンプルファイルをダウンロード
+const fileDownloadTest = dispach => {
+  // TODO ここにダウンロード処理を実装
+  dispach({ type: "FILE_DOWNLOAD_TEST" });
+};
+
 const asyncGetInitialData = () => {
   return dispach => {
     getInitialData(dispach);
@@ -156,6 +169,12 @@ const asyncRoomMessages = roomName => {
   };
 };
 
+const asyncFileDownloadTest = () => {
+  return dispatch => {
+    fileDownloadTest(dispatch);
+  };
+};
+
 const mapDispatchToProps = dispach => {
   return {
     displayInitialData: () => {
@@ -171,6 +190,9 @@ const mapDispatchToProps = dispach => {
       dispach({
         type: "CLOSE_MODAL"
       });
+    },
+    fileDownload: () => {
+      dispach(asyncFileDownloadTest());
     },
     changeInputMessage: inputMessage => {
       dispach({
