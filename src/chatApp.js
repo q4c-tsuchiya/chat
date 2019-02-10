@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "./main";
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 import Modal from "./modal";
 import { SideMenu } from "./sideMenu";
 
@@ -43,7 +43,7 @@ export const ChatApp = props => {
         </button>
         <button
           onClick={props.fileDownload} //暫定実装
-          style={{ height: "50px", width: "100px", marginLeft: "30px" }}
+          style={{ height: "50px", width: "100px", marginLeft: "30px" }} //TODO ボタンの位置がずれているので対応必要
         >
           ファイルダウンロードテスト
         </button>
@@ -148,6 +148,22 @@ const getRoomMessages = (dispach, roomName) => {
 // Firebase Storage からサンプルファイルをダウンロード
 const fileDownloadTest = dispach => {
   // TODO ここにダウンロード処理を実装
+  storage
+    .child("test/fileDownloadTest.txt")
+    .getDownloadURL()
+    .then(url => {
+      // This can be downloaded directly:
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = "blob";
+      xhr.onload = function(event) {
+        var blob = xhr.response;
+      };
+      xhr.open("GET", url);
+      xhr.send();
+    })
+    .catch(error => {
+      // Handle any errors
+    });
   dispach({ type: "FILE_DOWNLOAD_TEST" });
 };
 
