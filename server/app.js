@@ -9,7 +9,17 @@ var server = app.listen(3000, function() {
   console.log("Node.js is listening to PORT:" + server.address().port);
 });
 
-/* 3. 以後、アプリケーション固有の処理 */
+/* 3. CORSを許可する */
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+/* 4. 以後、アプリケーション固有の処理 */
 
 // サンプルデータ
 var userList = [
