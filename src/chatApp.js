@@ -21,7 +21,6 @@ const MessageList = ({ messages }) => {
   });
   return <ul>{list}</ul>;
 };
-// gs://hapicomori-chat.appspot.com/test/fileDownloadTest.txt
 
 export const ChatApp = props => {
   return (
