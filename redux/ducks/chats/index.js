@@ -56,6 +56,12 @@ export const reducer = (state = initialState, action) => {
         messages: action.payload.messages,
         currentRoom: action.payload.currentRoom
       };
+    case "GET_USERS_DATA":
+      return {
+        ...state
+        // users: users //ここにサーバサイドAPIから取り出したデータをつめなおす
+      };
+
     case "OPEN_MODAL":
       return {
         ...state,

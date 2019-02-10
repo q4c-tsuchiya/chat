@@ -4,6 +4,7 @@
   "description": "チャットアプリ構築を通して技術力向上をめざす",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.16.4",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

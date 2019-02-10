@@ -40,6 +40,12 @@ export const ChatApp = props => {
         >
           メモ表示
         </button>
+        <button
+          onClick={props.callServerSideAPI}
+          style={{ height: "50px", width: "100px", marginLeft: "30px" }}
+        >
+          サーバサイドAPI呼び出し
+        </button>
         <a href="" className={styles.account}>
           Login / Logout
         </a>
@@ -138,6 +144,21 @@ const getRoomMessages = (dispach, roomName) => {
     });
 };
 
+const callServerSideAPI = dispach => {
+  // サンプルAPIにhtttp request投げる
+
+  dispach({
+    type: "GET_USERS_DATA"
+    // payload: { users: hoge } //ここにサーバサイドAPIから取り出したデータをつめなおす
+  });
+};
+
+const asyncCallServerSideAPI = () => {
+  return dispach => {
+    callServerSideAPI(dispach);
+  };
+};
+
 const asyncGetInitialData = () => {
   return dispach => {
     getInitialData(dispach);
@@ -160,6 +181,9 @@ const mapDispatchToProps = dispach => {
   return {
     displayInitialData: () => {
       dispach(asyncGetInitialData());
+    },
+    callServerSideAPI: () => {
+      dispach(asyncCallServerSideAPI());
     },
     openModal: () => {
       dispach({
