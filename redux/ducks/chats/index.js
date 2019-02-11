@@ -25,7 +25,7 @@ date.setFullYear(2019);
 date.setMonth(1);
 date.setDate(1);
 
-const initialState = {
+const initialState = () => ({
   userName: "miyakawa",
   currentRoom: "roomA",
   messages: [
@@ -40,15 +40,16 @@ const initialState = {
       timestamp: date
     }
   ],
+  users: [], // APIから取得したサンプルデータが格納
   inputMessage: "",
   inputMemo: "",
   modal: {
     type: "",
     data: {}
   }
-};
+});
 
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = initialState(), action) => {
   switch (action.type) {
     case "DISPLAY_INITIAL_DATA":
       return {
@@ -56,6 +57,12 @@ export const reducer = (state = initialState, action) => {
         messages: action.payload.messages,
         currentRoom: action.payload.currentRoom
       };
+    case "GET_USERS_DATA":
+      return {
+        ...state,
+        users: action.payload.users
+      };
+
     case "OPEN_MODAL":
       return {
         ...state,
@@ -67,7 +74,7 @@ export const reducer = (state = initialState, action) => {
     case "CLOSE_MODAL":
       return {
         ...state,
-        modal: initialState.modal
+        modal: initialState().modal
       };
     case "CHANGE_INPUT_MESSAGE":
       return {

@@ -4,6 +4,7 @@ import styles from "./main";
 import { db } from "./firebase";
 import Modal from "./modal";
 import { SideMenu } from "./sideMenu";
+import axios from "axios";
 
 const MessageList = ({ messages }) => {
   if (!messages) {
@@ -39,6 +40,12 @@ export const ChatApp = props => {
           style={{ height: "50px", width: "100px", marginLeft: "30px" }}
         >
           メモ表示
+        </button>
+        <button
+          onClick={props.callServerSideAPI}
+          style={{ height: "50px", width: "100px", marginLeft: "30px" }}
+        >
+          サーバサイドAPI呼び出し
         </button>
         <a href="" className={styles.account}>
           Login / Logout
@@ -138,6 +145,32 @@ const getRoomMessages = (dispach, roomName) => {
     });
 };
 
+const callServerSideAPI = dispach => {
+  // expressで実装した、サンプルAPIにHttpRequest投げる
+  axios({
+    method: "GET",
+    url: "http://localhost:3000/api/users",
+    params: {}
+  })
+    .then(response => {
+      console.log(response);
+      dispach({
+        type: "GET_USERS_DATA",
+        payload: { users: response.data }
+      });
+    })
+    .catch(errors => {
+      console.log("Axios error occured !");
+      console.log(errors);
+    });
+};
+
+const asyncCallServerSideAPI = () => {
+  return dispach => {
+    callServerSideAPI(dispach);
+  };
+};
+
 const asyncGetInitialData = () => {
   return dispach => {
     getInitialData(dispach);
@@ -160,6 +193,9 @@ const mapDispatchToProps = dispach => {
   return {
     displayInitialData: () => {
       dispach(asyncGetInitialData());
+    },
+    callServerSideAPI: () => {
+      dispach(asyncCallServerSideAPI());
     },
     openModal: () => {
       dispach({
