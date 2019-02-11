@@ -3,6 +3,10 @@ import FIREBASE_CONFIG from "../config/firebase";
 // Initialize Firebase
 firebase.initializeApp(FIREBASE_CONFIG);
 
+// Cloud Storage
+export const storage = firebase.storage().ref();
+
+// FireStore
 export const db = firebase.firestore();
 db.settings({
   timestampsInSnapshots: true

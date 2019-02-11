@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "./main";
-import { db } from "./firebase";
+import { db, storage } from "./firebase";
 import Modal from "./modal";
 import { SideMenu } from "./sideMenu";
 import axios from "axios";
@@ -40,6 +40,12 @@ export const ChatApp = props => {
           style={{ height: "50px", width: "100px", marginLeft: "30px" }}
         >
           メモ表示
+        </button>
+        <button
+          onClick={props.fileDownload} //暫定実装
+          style={{ height: "50px", width: "100px", marginLeft: "30px" }} //TODO ボタンの位置がずれているので対応必要
+        >
+          ファイルダウンロードテスト
         </button>
         <button
           onClick={props.callServerSideAPI}
@@ -145,6 +151,28 @@ const getRoomMessages = (dispach, roomName) => {
     });
 };
 
+// Firebase Storage からサンプルファイルをダウンロード
+const fileDownloadTest = dispach => {
+  // TODO ここにダウンロード処理を実装
+  storage
+    .child("test/fileDownloadTest.txt")
+    .getDownloadURL()
+    .then(url => {
+      // This can be downloaded directly:
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = "blob";
+      xhr.onload = function(event) {
+        var blob = xhr.response;
+      };
+      xhr.open("GET", url);
+      xhr.send();
+    })
+    .catch(error => {
+      // Handle any errors
+    });
+  dispach({ type: "FILE_DOWNLOAD_TEST" });  
+};
+
 const callServerSideAPI = dispach => {
   // expressで実装した、サンプルAPIにHttpRequest投げる
   axios({
@@ -169,7 +197,6 @@ const asyncCallServerSideAPI = () => {
   return dispach => {
     callServerSideAPI(dispach);
   };
-};
 
 const asyncGetInitialData = () => {
   return dispach => {
@@ -186,6 +213,12 @@ const asyncGetRoomNames = () => {
 const asyncRoomMessages = roomName => {
   return dispach => {
     getRoomMessages(dispach, roomName);
+  };
+};
+
+const asyncFileDownloadTest = () => {
+  return dispatch => {
+    fileDownloadTest(dispatch);
   };
 };
 
@@ -207,6 +240,9 @@ const mapDispatchToProps = dispach => {
       dispach({
         type: "CLOSE_MODAL"
       });
+    },
+    fileDownload: () => {
+      dispach(asyncFileDownloadTest());
     },
     changeInputMessage: inputMessage => {
       dispach({

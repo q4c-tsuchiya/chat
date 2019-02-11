@@ -112,6 +112,8 @@ export const reducer = (state = initialState(), action) => {
         ...state,
         userRoomIdxs: action.payload.roomNames
       };
+    case "FILE_DOWNLOAD_TEST":
+      return state;
     default:
       return state;
   }
