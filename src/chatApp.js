@@ -166,11 +166,11 @@ const fileDownloadTest = dispach => {
       };
       xhr.open("GET", url);
       xhr.send();
+      dispach({ type: "FILE_DOWNLOAD_TEST" });
     })
     .catch(error => {
       // Handle any errors
     });
-  dispach({ type: "FILE_DOWNLOAD_TEST" });  
 };
 
 const callServerSideAPI = dispach => {
@@ -197,6 +197,7 @@ const asyncCallServerSideAPI = () => {
   return dispach => {
     callServerSideAPI(dispach);
   };
+};
 
 const asyncGetInitialData = () => {
   return dispach => {
